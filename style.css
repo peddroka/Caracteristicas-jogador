@@ -1,0 +1,225 @@
+:root {
+  --preto: #0d0d0d;
+  --dourado: #d4af37;
+  --cinza: #1a1a1a;
+  --branco: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--preto);
+  color: var(--branco);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 15px;
+}
+
+.logo-guaras {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.titulo-guaras {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dourado);
+}
+
+/* GRID DE JOGADORES */
+.jogadores-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.jogador-card {
+  background-color: var(--cinza);
+  border: 1px solid var(--dourado);
+  border-radius: 12px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.jogador-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 10px var(--dourado);
+}
+
+.foto-card {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid var(--dourado);
+}
+
+.apelido {
+  display: block;
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--dourado);
+  font-size: 1.1rem;
+}
+
+/* OVERLAY */
+.jogador-info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 13, 13, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.jogador-info-overlay.ativo {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.info-conteudo {
+  background-color: var(--cinza);
+  border: 2px solid var(--dourado);
+  border-radius: 15px;
+  padding: 30px 25px 25px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  color: var(--branco);
+  position: relative;
+  animation: aparecer 0.4s ease;
+}
+
+.info-conteudo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid var(--dourado);
+  margin-bottom: 15px;
+}
+
+.info-conteudo h2 {
+  font-size: 1.4rem;
+  color: var(--dourado);
+  margin-bottom: 10px;
+}
+
+.info-conteudo p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+/* Botão fechar */
+.btn-fechar {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--branco);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btn-fechar:hover {
+  color: var(--dourado);
+}
+
+/* Atributos */
+.atributos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+}
+
+.atributo label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.barra {
+  width: 100%;
+  height: 16px;
+  background-color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.barra-preenchimento {
+  height: 100%;
+  width: 0%;
+  background-color: var(--dourado);
+  transition: width 1.2s ease;
+  border-radius: 8px;
+}
+
+/* Animação */
+@keyframes aparecer {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  /* Grade com 3 cards por linha no celular */
+  .jogadores-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  /* Overlay menor e com padding reduzido */
+  .info-conteudo {
+    max-width: 320px;
+    padding: 20px 15px 15px;
+  }
+
+  .info-conteudo img {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 12px;
+  }
+
+  .info-conteudo h2 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .info-conteudo p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+}

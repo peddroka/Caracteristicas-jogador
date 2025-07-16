@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Guarás - Racha de Basquete</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <img
+        src="img/Imagem do WhatsApp de 2025-07-13 à(s) 18.01.43_746e17e1-Photoroom.png"
+        alt="Logo Guarás"
+        class="logo-guaras"
+      />
+      <h1 class="titulo-guaras">GUARÁS</h1>
+    </header>
+
+    <main class="jogadores-container">
+      <!-- Jogador 1 -->
+      <div
+        class="jogador-card"
+        data-apelido="Japa"
+        data-funcao="Ala Armador"
+        data-idade="20"
+        data-altura="1,82m"
+        data-img="img/Imagem do WhatsApp de 2025-07-15 à(s) 23.36.24_caa76e75.jpg"
+        data-atributos='[
+          {"label":"Rebote","valor":70},
+          {"label":"Resistência","valor":85},
+          {"label":"Defesa","valor":65},
+          {"label":"Infiltração","valor":90},
+          {"label":"Arremesso 2pts","valor":75},
+          {"label":"Arremesso 3pts","valor":60},
+          {"label":"Passe","valor":88},
+          {"label":"Visão de Jogo","valor":82},
+          {"label":"Velocidade","valor":91},
+          {"label":"Controle de Bola","valor":86}
+        ]'
+      >
+        <img
+          src="img/Imagem do WhatsApp de 2025-07-15 à(s) 23.36.24_caa76e75.jpg"
+          alt="Japa"
+          class="foto-card"
+        />
+        <span class="apelido">Japa</span>
+      </div>
+
+      <!-- Jogador 2 -->
+      <div
+        class="jogador-card"
+        data-apelido="Leo"
+        data-funcao="Pivô"
+        data-idade="25"
+        data-altura="2,05m"
+        data-img="img/jogador2.jpg"
+        data-atributos='[
+          {"label":"Rebote","valor":85},
+          {"label":"Resistência","valor":80},
+          {"label":"Defesa","valor":78},
+          {"label":"Infiltração","valor":60},
+          {"label":"Arremesso 2pts","valor":70},
+          {"label":"Arremesso 3pts","valor":40},
+          {"label":"Passe","valor":75},
+          {"label":"Visão de Jogo","valor":70},
+          {"label":"Velocidade","valor":65},
+          {"label":"Controle de Bola","valor":60}
+        ]'
+      >
+        <img src="img/jogador2.jpg" alt="Leo" class="foto-card" />
+        <span class="apelido">Leo</span>
+      </div>
+
+      <!-- Adicione mais cards seguindo esse modelo -->
+    </main>
+
+    <!-- Overlay com informações -->
+    <div class="jogador-info-overlay" id="infoOverlay">
+      <div class="info-conteudo" id="infoConteudo">
+        <button class="btn-fechar" id="btnFechar">✕</button>
+        <!-- Conteúdo será inserido via JS -->
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
