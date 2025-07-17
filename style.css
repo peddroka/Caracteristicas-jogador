@@ -1,8 +1,17 @@
 :root {
   --preto: #0d0d0d;
-  --dourado: #d4af37;
   --cinza: #1a1a1a;
   --branco: #fff;
+
+  --dourado-claro: #ffe082;
+  --dourado-medio: #d4af37;
+  --dourado-fraco: #736b3c;
+
+  --dourado-5: #ffde59;
+  --dourado-4: #e6c349;
+  --dourado-3: #c2a134;
+  --dourado-2: #a88e2f;
+  --dourado-1: #8a7223;
 }
 
 * {
@@ -12,7 +21,7 @@
 }
 
 body {
-  background-color: var(--preto);
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
   color: var(--branco);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
@@ -35,47 +44,104 @@ header {
 .titulo-guaras {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--dourado);
+  color: var(--dourado-medio);
 }
 
-/* GRID DE JOGADORES */
 .jogadores-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   gap: 20px;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
 .jogador-card {
   background-color: var(--cinza);
-  border: 1px solid var(--dourado);
-  border-radius: 12px;
-  padding: 10px;
+  border-radius: 16px;
+  padding: 12px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 3px solid transparent;
 }
 
 .jogador-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 0 10px var(--dourado);
+  transform: translateY(-5px);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+
+/* Níveis de borda baseados no overall */
+.borda-nivel-5 {
+  border-color: var(--dourado-5);
+  box-shadow: 0 0 15px var(--dourado-5);
+}
+.borda-nivel-4 {
+  border-color: var(--dourado-4);
+  box-shadow: 0 0 10px var(--dourado-4);
+}
+.borda-nivel-3 {
+  border-color: var(--dourado-3);
+  box-shadow: 0 0 8px var(--dourado-3);
+}
+.borda-nivel-2 {
+  border-color: var(--dourado-2);
+  box-shadow: 0 0 6px var(--dourado-2);
+}
+.borda-nivel-1 {
+  border-color: var(--dourado-1);
+  box-shadow: 0 0 4px var(--dourado-1);
 }
 
 .foto-card {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
-  border-radius: 10px;
-  border: 2px solid var(--dourado);
+  border-radius: 12px;
+  border: 2px solid var(--dourado-medio);
 }
 
-.apelido {
+.apelido-novo {
   display: block;
-  margin-top: 8px;
+  margin-top: 10px;
   font-weight: 700;
-  color: var(--dourado);
-  font-size: 1.1rem;
+  font-size: 1rem;
+  color: var(--dourado-claro);
+}
+
+/* Botão Comparar */
+.btn-comparar {
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background-color: var(--dourado-medio);
+  color: var(--preto);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comparar:hover {
+  background-color: var(--dourado-claro);
+}
+
+/* OVERALL */
+.overall {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: var(--dourado-fraco);
+  color: #000;
+  font-weight: bold;
+  font-size: 0.95rem;
+  padding: 6px 10px;
+  border-radius: 10px;
+  z-index: 2;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 /* OVERLAY */
@@ -102,7 +168,7 @@ header {
 
 .info-conteudo {
   background-color: var(--cinza);
-  border: 2px solid var(--dourado);
+  border: 2px solid var(--dourado-medio);
   border-radius: 15px;
   padding: 30px 25px 25px;
   max-width: 500px;
@@ -118,13 +184,13 @@ header {
   height: 120px;
   border-radius: 12px;
   object-fit: cover;
-  border: 2px solid var(--dourado);
+  border: 2px solid var(--dourado-medio);
   margin-bottom: 15px;
 }
 
 .info-conteudo h2 {
   font-size: 1.4rem;
-  color: var(--dourado);
+  color: var(--dourado-claro);
   margin-bottom: 10px;
 }
 
@@ -133,7 +199,6 @@ header {
   margin-bottom: 15px;
 }
 
-/* Botão fechar */
 .btn-fechar {
   position: absolute;
   top: 10px;
@@ -147,10 +212,9 @@ header {
 }
 
 .btn-fechar:hover {
-  color: var(--dourado);
+  color: var(--dourado-claro);
 }
 
-/* Atributos */
 .atributos {
   display: flex;
   flex-direction: column;
@@ -176,12 +240,11 @@ header {
 .barra-preenchimento {
   height: 100%;
   width: 0%;
-  background-color: var(--dourado);
+  background-color: var(--dourado-medio);
   transition: width 1.2s ease;
   border-radius: 8px;
 }
 
-/* Animação */
 @keyframes aparecer {
   from {
     transform: scale(0.95);
@@ -193,15 +256,12 @@ header {
   }
 }
 
-/* Responsivo */
 @media (max-width: 600px) {
-  /* Grade com 3 cards por linha no celular */
   .jogadores-container {
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
   }
 
-  /* Overlay menor e com padding reduzido */
   .info-conteudo {
     max-width: 320px;
     padding: 20px 15px 15px;
