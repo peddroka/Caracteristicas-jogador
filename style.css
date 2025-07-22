@@ -7,11 +7,11 @@
   --dourado-medio: #d4af37;
   --dourado-fraco: #736b3c;
 
-  --dourado-5: #ffde59;
-  --dourado-4: #e6c349;
-  --dourado-3: #c2a134;
-  --dourado-2: #a88e2f;
-  --dourado-1: #8a7223;
+  --dourado-mais-forte: #bfa329;
+  --dourado-forte: #d4af37;
+  --dourado-medio-forte: #c1a93b;
+  --dourado-medio-fraco: #aa9433;
+  --dourado-fraco-cor: #736b3c;
 }
 
 * {
@@ -21,10 +21,11 @@
 }
 
 body {
-  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  background: var(--preto);
   color: var(--branco);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
+  overflow-x: hidden;
 }
 
 header {
@@ -55,16 +56,21 @@ header {
   margin: 0 auto;
 }
 
+/* CARD JOGADOR */
 .jogador-card {
+  position: relative;
   background-color: var(--cinza);
   border-radius: 16px;
   padding: 12px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.3s ease, border-color 0.3s ease;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 3px solid transparent;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .jogador-card:hover {
@@ -72,79 +78,77 @@ header {
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
 }
 
-/* Níveis de borda baseados no overall */
-.borda-nivel-5 {
-  border-color: var(--dourado-5);
-  box-shadow: 0 0 15px var(--dourado-5);
-}
-.borda-nivel-4 {
-  border-color: var(--dourado-4);
-  box-shadow: 0 0 10px var(--dourado-4);
-}
-.borda-nivel-3 {
-  border-color: var(--dourado-3);
-  box-shadow: 0 0 8px var(--dourado-3);
-}
-.borda-nivel-2 {
-  border-color: var(--dourado-2);
-  box-shadow: 0 0 6px var(--dourado-2);
-}
-.borda-nivel-1 {
-  border-color: var(--dourado-1);
-  box-shadow: 0 0 4px var(--dourado-1);
+/* BORDER E FUNDO VARIÁVEIS POR OVERALL */
+.jogador-card.overall-90 {
+  border-color: var(--dourado-mais-forte);
+  background-color: #302900;
 }
 
+.jogador-card.overall-80 {
+  border-color: var(--dourado-forte);
+  background-color: #3a3110;
+}
+
+.jogador-card.overall-70 {
+  border-color: var(--dourado-medio-forte);
+  background-color: #453e15;
+}
+
+.jogador-card.overall-60 {
+  border-color: var(--dourado-medio-fraco);
+  background-color: #554b1f;
+}
+
+.jogador-card.overall-50 {
+  border-color: var(--dourado-fraco-cor);
+  background-color: #635629;
+}
+
+/* FOTO */
 .foto-card {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 12px;
   border: 2px solid var(--dourado-medio);
+  margin-bottom: 10px;
 }
 
-.apelido-novo {
-  display: block;
-  margin-top: 10px;
+.apelido {
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.15rem;
   color: var(--dourado-claro);
+  margin-bottom: 12px;
 }
 
-/* Botão Comparar */
+/* BOTAO COMPARAR */
 .btn-comparar {
-  margin-top: 8px;
-  padding: 6px 14px;
-  border-radius: 12px;
+  margin-top: auto;
   background-color: var(--dourado-medio);
-  color: var(--preto);
-  font-weight: 700;
-  font-size: 0.9rem;
   border: none;
+  padding: 8px 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  color: var(--preto);
   cursor: pointer;
   transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 140px;
+  align-self: center;
 }
 
 .btn-comparar:hover {
-  background-color: var(--dourado-claro);
+  background-color: var(--dourado-mais-forte);
 }
 
-/* OVERALL */
-.overall {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  background-color: var(--dourado-fraco);
+.btn-comparar.selecionado {
+  background-color: #ffaa00;
   color: #000;
-  font-weight: bold;
-  font-size: 0.95rem;
-  padding: 6px 10px;
-  border-radius: 10px;
-  z-index: 2;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  box-shadow: 0 0 10px #ffaa00;
 }
 
-/* OVERLAY */
+/* OVERLAY INFORMAÇÕES JOGADOR */
 .jogador-info-overlay {
   position: fixed;
   top: 0;
@@ -155,10 +159,11 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 9999;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  padding: 15px;
 }
 
 .jogador-info-overlay.ativo {
@@ -172,7 +177,9 @@ header {
   border-radius: 15px;
   padding: 30px 25px 25px;
   max-width: 500px;
-  width: 90%;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
   text-align: center;
   color: var(--branco);
   position: relative;
@@ -199,6 +206,7 @@ header {
   margin-bottom: 15px;
 }
 
+/* Botão fechar */
 .btn-fechar {
   position: absolute;
   top: 10px;
@@ -215,6 +223,7 @@ header {
   color: var(--dourado-claro);
 }
 
+/* Atributos */
 .atributos {
   display: flex;
   flex-direction: column;
@@ -245,41 +254,140 @@ header {
   border-radius: 8px;
 }
 
-@keyframes aparecer {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
+/* COMPARAÇÃO - RESPONSIVO E LIMPO */
+.comparacao-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(13, 13, 13, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 15px;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+}
+
+.comparacao-overlay.ativo {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.comparacao-card {
+  background-color: var(--cinza);
+  border-radius: 15px;
+  border: 2px solid var(--dourado-medio);
+  padding: 25px 20px 20px;
+  width: 100%;
+  max-width: 460px;
+  min-width: 300px;
+  height: auto;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: var(--branco);
+  position: relative;
+  box-sizing: border-box;
+  scroll-snap-align: center;
+  flex-shrink: 0;
+}
+
+.comparacao-card h2 {
+  font-size: 1.3rem;
+  color: var(--dourado-claro);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.comparacao-card img {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid var(--dourado-medio);
+  margin: 0 auto 15px;
+  display: block;
+}
+
+.comparacao-atributos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comparacao-atributo {
+  display: flex;
+  flex-direction: column;
+}
+
+.comparacao-atributo label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+  color: var(--branco);
+}
+
+.comparacao-barra {
+  width: 100%;
+  height: 14px;
+  background-color: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparacao-barra-preenchimento {
+  height: 100%;
+  width: 0%;
+  background-color: var(--dourado-medio);
+  border-radius: 8px;
+  transition: width 1.2s ease;
+}
+
+.comparacao-barra-preenchimento.destaque {
+  background-color: var(--dourado-mais-forte);
+}
+
+.btn-resetar-comparacao {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dourado-medio);
+  border: none;
+  padding: 10px 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  color: var(--preto);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: calc(100% - 40px);
+  max-width: 300px;
+}
+
+.btn-resetar-comparacao:hover {
+  background-color: var(--dourado-mais-forte);
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .comparacao-card {
+    max-width: 90vw;
   }
 }
 
 @media (max-width: 600px) {
   .jogadores-container {
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
   }
 
-  .info-conteudo {
-    max-width: 320px;
-    padding: 20px 15px 15px;
-  }
-
-  .info-conteudo img {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 12px;
-  }
-
-  .info-conteudo h2 {
-    font-size: 1.1rem;
-    margin-bottom: 8px;
-  }
-
-  .info-conteudo p {
-    font-size: 0.9rem;
-    margin-bottom: 12px;
+  .btn-comparar {
+    max-width: 100%;
   }
 }
