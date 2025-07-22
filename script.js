@@ -1,13 +1,34 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const cards = document.querySelectorAll(".jogador-card");
-  const overlay = document.querySelector(".jogador-info-overlay");
-  const conteudo = document.querySelector(".info-conteudo");
-  const btnFechar = document.querySelector(".btn-fechar");
+  const container = document.querySelector(".jogadores-container");
+  const cards = Array.from(container.querySelectorAll(".jogador-card"));
+
+  // Função que calcula overall
+  function calculaOverall(atributos) {
+    const soma = atributos.reduce((acc, atual) => acc + atual.valor, 0);
+    return Math.round(soma / atributos.length);
+  }
+
+  // Define classe geral para cor/borda baseado no overall
+  function getOverallClass(overall) {
+    if (overall >= 85) return "overall-90"; // Aplica a classe animada
+    if (overall >= 80) return "overall-80";
+    if (overall >= 70) return "overall-70";
+    if (overall >= 60) return "overall-60";
+    return "overall-50";
+  }
+  // Ordena os cards pelo overall (do maior pro menor)
+  cards.sort((a, b) => {
+    const overallA = calculaOverall(JSON.parse(a.dataset.atributos));
+    const overallB = calculaOverall(JSON.parse(b.dataset.atributos));
+    return overallB - overallA;
+  });
+
+  // Reinsere os cards no container na ordem correta
+  cards.forEach((card) => container.appendChild(card));
 
   // Variáveis para comparação
   let comparacaoOverlay = null;
   let comparacaoCardsContainer = null;
-  let btnResetarComparacao = null;
 
   let jogadorSelecionadoParaComparar = null;
   let jogadoresParaComparar = [];
@@ -21,23 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     comparacaoCardsContainer.classList.add("comparacao-cards-container");
     comparacaoOverlay.appendChild(comparacaoCardsContainer);
 
-    btnResetarComparacao = document.createElement("button");
-    btnResetarComparacao.textContent = "Resetar Comparação";
-    btnResetarComparacao.classList.add("btn-resetar-comparacao");
-    comparacaoOverlay.appendChild(btnResetarComparacao);
-
     document.body.appendChild(comparacaoOverlay);
-
-    btnResetarComparacao.addEventListener("click", () => {
-      jogadoresParaComparar = [];
-      jogadorSelecionadoParaComparar = null;
-      comparacaoOverlay.classList.remove("ativo");
-      cards.forEach((c) => {
-        const btn = c.querySelector(".btn-comparar");
-        if (btn) btn.classList.remove("selecionado");
-        if (btn) btn.classList.remove("btn-comparar-inativo");
-      });
-    });
 
     // Fecha overlay se clicar fora dos cards
     comparacaoOverlay.addEventListener("click", (e) => {
@@ -52,21 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
     });
-  }
-
-  // Calcula overall
-  function calculaOverall(atributos) {
-    const soma = atributos.reduce((acc, atual) => acc + atual.valor, 0);
-    return Math.round(soma / atributos.length);
-  }
-
-  // Define classe geral para cor/borda baseado no overall
-  function getOverallClass(overall) {
-    if (overall >= 90) return "overall-90";
-    if (overall >= 80) return "overall-80";
-    if (overall >= 70) return "overall-70";
-    if (overall >= 60) return "overall-60";
-    return "overall-50";
   }
 
   // Cria a barra da comparação com destaque
@@ -91,6 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const altura = card.dataset.altura;
     const img = card.dataset.img;
     const atributos = JSON.parse(card.dataset.atributos);
+    const overall = calculaOverall(atributos);
 
     // Monta atributos HTML com barras animadas
     let atributosHTML = "";
@@ -108,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     conteudo.innerHTML = `
       <button class="btn-fechar" title="Fechar">&times;</button>
       <img src="${img}" alt="${apelido}" />
+      <div class="overall-label" style="position:absolute;top:12px;left:12px;z-index:10;">${overall}</div>
       <h2>${apelido}</h2>
       <p><strong>Função:</strong> ${funcao}</p>
       <p><strong>Idade:</strong> ${idade} anos</p>
@@ -147,13 +139,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let html1 = `
       <h2>${jogadoresParaComparar[0].apelido}</h2>
-      <img src="${jogadoresParaComparar[0].img}" alt="${jogadoresParaComparar[0].apelido}" />
+      <div class="overall-label" style="position:absolute;top:12px;left:12px;z-index:10;">${calculaOverall(
+        atributos1
+      )}</div>
+      <img src="${jogadoresParaComparar[0].img}" alt="${
+      jogadoresParaComparar[0].apelido
+    }" />
       <div class="comparacao-atributos">
     `;
 
     let html2 = `
       <h2>${jogadoresParaComparar[1].apelido}</h2>
-      <img src="${jogadoresParaComparar[1].img}" alt="${jogadoresParaComparar[1].apelido}" />
+      <div class="overall-label" style="position:absolute;top:12px;left:12px;z-index:10;">${calculaOverall(
+        atributos2
+      )}</div>
+      <img src="${jogadoresParaComparar[1].img}" alt="${
+      jogadoresParaComparar[1].apelido
+    }" />
       <div class="comparacao-atributos">
     `;
 
@@ -247,7 +249,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const atributos = JSON.parse(card.dataset.atributos);
     const overall = calculaOverall(atributos);
     card.classList.add(getOverallClass(overall));
+
+    // Adiciona label overall no card
+    const overallLabel = document.createElement("div");
+    overallLabel.classList.add("overall-label");
+    overallLabel.textContent = overall;
+    card.style.position = "relative"; // garante posição para o label ficar absoluto
+    card.appendChild(overallLabel);
   });
+
+  // Overlay detalhes
+  const overlay = document.querySelector(".jogador-info-overlay");
+  const conteudo = document.querySelector(".info-conteudo");
+  const btnFechar = document.querySelector(".btn-fechar");
 
   // Fechar overlay detalhes
   btnFechar.addEventListener("click", () => {
